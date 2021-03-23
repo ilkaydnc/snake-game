@@ -1,9 +1,49 @@
 .App {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 100vh;
+}
+
+.ScoreTable {
+  display: flex;
+  justify-content: center;
+  width: 600px;
+  color: rgb(63, 63, 63);
+}
+
+.GameOver {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.GameOver__title {
+  font-size: 64px;
+  font-weight: 700;
+}
+
+.GameOver__score {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 32px;
+  color: rgb(0, 184, 31);
+}
+
+.GameOver__button {
+  font-size: 24px;
+  font-weight: 700;
+  padding: 1rem 2rem;
+  text-transform: uppercase;
+  border: 0;
+  border-radius: 4px;
+  outline: 0;
+  background-color: rgb(62, 113, 255);
+  color: white;
+  cursor: pointer;
 }
 
 .Map {
@@ -17,6 +57,7 @@
   height: 24px;
   background-color: rgb(215, 231, 250);
   transition: transform 0.15s;
+  border-radius: 2px;
 }
 
 .Map__snake {

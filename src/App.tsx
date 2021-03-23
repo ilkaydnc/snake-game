@@ -190,26 +190,45 @@ function App() {
 
   return (
     <div className="App">
-      <div
-        className="Map"
-        style={{
-          gridTemplateColumns: `repeat(${MAP_WIDTH}, 24px)`,
-          gridAutoRows: `repeat(${MAP_HEIGHT}, 24px)`,
-        }}
-      >
-        {map?.map((cell, index) => (
-          <div
-            key={index}
-            className={cs(
-              "Map__cell",
-              cell === "S" && "Map__snake",
-              snake[snake.length - 1] === index && "Map__snake_head",
-              cell === "X" && "Map__apple"
-            )}
-            onClick={() => console.log(index)}
-          />
-        ))}
-      </div>
+      {!gameOver && (
+        <div className="ScoreTable">
+          <h2>Score: {score}</h2>
+        </div>
+      )}
+      {gameOver ? (
+        <div
+          className="GameOver"
+          style={{ width: MAP_WIDTH * 24, height: MAP_HEIGHT * 24 }}
+        >
+          <h1 className="GameOver__title">Game Over</h1>
+
+          <span className="GameOver__score">Your Score: {score}</span>
+          <button className="GameOver__button" onClick={createNewGame}>
+            Try Again!
+          </button>
+        </div>
+      ) : (
+        <div
+          className="Map"
+          style={{
+            gridTemplateColumns: `repeat(${MAP_WIDTH}, 24px)`,
+            gridAutoRows: `repeat(${MAP_HEIGHT}, 24px)`,
+          }}
+        >
+          {map?.map((cell, index) => (
+            <div
+              key={index}
+              className={cs(
+                "Map__cell",
+                cell === "S" && "Map__snake",
+                snake[snake.length - 1] === index && "Map__snake_head",
+                cell === "X" && "Map__apple"
+              )}
+              onClick={() => console.log(index)}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
