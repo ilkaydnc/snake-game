@@ -19,14 +19,17 @@
   transition: transform 0.15s;
 }
 
-.Map__snake,
-.Map__snake:hover {
+.Map__snake {
   background-color: rgb(0, 184, 31);
   transform: scale(1);
 }
 
-.Map__apple,
-.Map__apple:hover {
+.Map__snake_head {
+  background-color: rgb(0, 97, 16);
+  transform: scale(1);
+}
+
+.Map__apple {
   background-color: rgb(241, 74, 74);
   transform: scale(1);
 }
