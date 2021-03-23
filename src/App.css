@@ -29,5 +29,4 @@
 .Map__apple:hover {
   background-color: rgb(241, 74, 74);
   transform: scale(1);
-  cursor: not-allowed;
 }
