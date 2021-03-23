@@ -14,19 +14,37 @@ const createSnake = (size: number): number[] => {
   return new Array(size).fill(0).map((_, i) => i);
 };
 
+const createRandomApple = (
+  width: number,
+  height: number,
+  snake: number[]
+): number => {
+  const maxIndex = width * height;
+  let selected = Math.floor(Math.random() * maxIndex);
+
+  while (snake.includes(selected)) {
+    selected = Math.floor(Math.random() * maxIndex);
+  }
+
+  return selected;
+};
+
 function App() {
   const [map, setMap] = useState<string[] | undefined>(undefined);
   const [snake, setSnake] = useState<number[] | undefined>([]);
 
   useEffect(() => {
-    const emptyMap = createNewMap(MAP_WIDTH, MAP_HEIGHT);
+    const initialMap = createNewMap(MAP_WIDTH, MAP_HEIGHT);
     const newSnake = createSnake(DEFAULT_SNAKE_SIZE);
+    const newAppleIndex = createRandomApple(MAP_WIDTH, MAP_HEIGHT, newSnake);
 
     newSnake.forEach((value) => {
-      emptyMap[value] = "S";
+      initialMap[value] = "S";
     });
 
-    setMap(emptyMap);
+    initialMap[newAppleIndex] = "X";
+
+    setMap(initialMap);
     setSnake(newSnake);
   }, []);
   return (
@@ -41,7 +59,11 @@ function App() {
         {map?.map((cell, index) => (
           <div
             key={index}
-            className={cs("Map__cell", cell === "S" && "Map__snake")}
+            className={cs(
+              "Map__cell",
+              cell === "S" && "Map__snake",
+              cell === "X" && "Map__apple"
+            )}
             onClick={() => console.log(index)}
           />
         ))}
