@@ -91,16 +91,15 @@ function App() {
       return;
     }
 
-    if (e.code === "ArrowUp" && ["L", "R"].includes(direction)) {
+    if (e.code === "ArrowUp" && direction !== "D") {
       setDirection("U");
-    } else if (e.code === "ArrowDown" && ["L", "R"].includes(direction)) {
+    } else if (e.code === "ArrowDown" && direction !== "U") {
       setDirection("D");
-    } else if (e.code === "ArrowLeft" && ["U", "D"].includes(direction)) {
+    } else if (e.code === "ArrowLeft" && direction !== "R") {
       setDirection("L");
-    } else if (e.code === "ArrowRight" && ["U", "D"].includes(direction)) {
+    } else if (e.code === "ArrowRight" && direction !== "L") {
       setDirection("R");
     }
-
   };
 
   const moveSnake = () => {
@@ -176,8 +175,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    clearInterval(interval);
-
     if (!gameOver && map && snake) {
       interval = setInterval(moveSnake, GAME_LOOP);
     }
