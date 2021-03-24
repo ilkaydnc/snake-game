@@ -127,7 +127,7 @@ function App() {
 
       setTimeout(() => {
         setGameOver(true);
-      }, 2000);
+      }, 1000);
 
       return null;
     }
