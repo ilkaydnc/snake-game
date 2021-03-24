@@ -35,15 +35,19 @@
 
 .GameOver__button {
   font-size: 24px;
-  font-weight: 700;
+  font-weight: 400;
   padding: 1rem 2rem;
-  text-transform: uppercase;
   border: 0;
   border-radius: 4px;
   outline: 0;
   background-color: rgb(62, 113, 255);
-  color: white;
+  color: rgb(230, 230, 230);
   cursor: pointer;
+}
+
+.GameOver__button code {
+  font-weight: 700;
+  color: white;
 }
 
 .Map {

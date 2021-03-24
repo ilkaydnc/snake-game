@@ -86,6 +86,9 @@ function App() {
   };
 
   const onKeyDown = (e: KeyboardEvent) => {
+    if (e.code === "Space" && gameOver) {
+      createNewGame();
+      return;
     }
 
     if (e.code === "ArrowUp" && ["L", "R"].includes(direction)) {
@@ -184,7 +187,7 @@ function App() {
   }, [map, snake, gameOver, direction]);
 
   useEffect(() => {
-    if (map && snake && !gameOver) {
+    if (map && snake) {
       window.addEventListener("keydown", onKeyDown);
     } else {
       window.removeEventListener("keydown", onKeyDown);
@@ -209,7 +212,7 @@ function App() {
 
           <span className="GameOver__score">Your Score: {score}</span>
           <button className="GameOver__button" onClick={createNewGame}>
-            Try Again!
+            Press <code>[Space]</code> to Start New Game!
           </button>
         </div>
       ) : (
