@@ -48,13 +48,14 @@ const getNextPosition = (
   }
 };
 
-const MAP_WIDTH = 32;
-const MAP_HEIGHT = 32;
 const DEFAULT_SNAKE_SIZE = 3;
-let GAME_LOOP = 50;
 let interval: any;
 
 function App() {
+  const [mapWidth, setMapWidth] = useState<number>(24);
+  const [mapHeight, setMapHeight] = useState<number>(24);
+  const [gameInterval, setGameInterval] = useState<number>(50);
+
   const [score, setScore] = useState<number>(0);
   const [map, setMap] = useState<string[] | undefined>(undefined);
   const [snake, setSnake] = useState<SnakePosition>([]);
@@ -66,9 +67,9 @@ function App() {
   );
 
   const createNewGame = () => {
-    const initialMap = createNewMap(MAP_WIDTH, MAP_HEIGHT);
+    const initialMap = createNewMap(mapWidth, mapHeight);
     const newSnake = createSnake(DEFAULT_SNAKE_SIZE);
-    const newAppleIndex = createRandomApple(MAP_WIDTH, MAP_HEIGHT, newSnake);
+    const newAppleIndex = createRandomApple(mapWidth, mapHeight, newSnake);
 
     setDirection("R");
     clearInterval(interval);
@@ -112,17 +113,17 @@ function App() {
     if (!map && !snake) return null;
 
     const snakeHead = snake[snake.length - 1];
-    const nextPosition = getNextPosition(snakeHead, MAP_WIDTH, direction);
+    const nextPosition = getNextPosition(snakeHead, mapWidth, direction);
 
     if (
       // Left Wall
-      (snakeHead % MAP_WIDTH === 0 && direction === "L") ||
+      (snakeHead % mapWidth === 0 && direction === "L") ||
       // Right Wall
-      (snakeHead % MAP_WIDTH === MAP_WIDTH - 1 && direction === "R") ||
+      (snakeHead % mapWidth === mapWidth - 1 && direction === "R") ||
       // Top Wall
       nextPosition < 0 ||
       // Bottom Wall
-      nextPosition > MAP_WIDTH * MAP_HEIGHT ||
+      nextPosition > mapWidth * mapHeight ||
       // Snake Collision
       snake.includes(nextPosition)
     ) {
@@ -146,11 +147,7 @@ function App() {
     if (cloneMap[nextPosition] === "X") {
       cloneMap[nextPosition] = "O";
 
-      const newAppleIndex = createRandomApple(
-        MAP_WIDTH,
-        MAP_HEIGHT,
-        cloneSnake
-      );
+      const newAppleIndex = createRandomApple(mapWidth, mapHeight, cloneSnake);
 
       cloneMap[newAppleIndex] = "X";
 
@@ -177,8 +174,8 @@ function App() {
   };
 
   useEffect(() => {
-    if (map && snake) {
-      interval = setInterval(moveSnake, GAME_LOOP);
+    if (map && snake && !errorCellIndex) {
+      interval = setInterval(moveSnake, gameInterval);
     }
 
     return () => interval && clearInterval(interval);
@@ -193,11 +190,47 @@ function App() {
     }
 
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [map, snake, gameOver]);
+  }, [map, snake, gameOver, errorCellIndex]);
 
   return (
     <div className="App">
-      {!gameStarted && <button onClick={createNewGame}>Start Game</button>}
+      {!gameStarted && (
+        <div className="NewGame">
+          <div className="NewGame__select">
+            <label htmlFor="difficulty">Game Difficulty</label>
+            <select
+              name="difficulty"
+              id="difficulty"
+              value={gameInterval}
+              onChange={(e) => setGameInterval(+e.target.value)}
+            >
+              <option value="100">Easy</option>
+              <option value="50">Normal</option>
+              <option value="25">Hard</option>
+              <option value="10">???</option>
+            </select>
+          </div>
+          <div className="NewGame__select">
+            <label htmlFor="size">Map Size</label>
+            <select
+              name="size"
+              id="size"
+              value={mapWidth}
+              onChange={(e) => {
+                setMapWidth(+e.target.value);
+                setMapHeight(+e.target.value);
+              }}
+            >
+              <option value="16">16x16</option>
+              <option value="24">24x24</option>
+              <option value="32">32x32</option>
+            </select>
+          </div>
+          <button className="NewGame__button" onClick={createNewGame}>
+            Start Game
+          </button>
+        </div>
+      )}
       {!gameOver && gameStarted && (
         <div className="ScoreTable">
           <h2>Score: {score}</h2>
@@ -206,7 +239,7 @@ function App() {
       {gameOver ? (
         <div
           className="GameOver"
-          style={{ width: MAP_WIDTH * 24, height: MAP_HEIGHT * 24 }}
+          style={{ width: mapWidth * 24, height: mapHeight * 24 }}
         >
           <h1 className="GameOver__title">Game Over</h1>
 
@@ -226,8 +259,8 @@ function App() {
           <div
             className="Map"
             style={{
-              gridTemplateColumns: `repeat(${MAP_WIDTH}, 24px)`,
-              gridAutoRows: `repeat(${MAP_HEIGHT}, 24px)`,
+              gridTemplateColumns: `repeat(${mapWidth}, 24px)`,
+              gridAutoRows: `repeat(${mapHeight}, 24px)`,
             }}
           >
             {map?.map((cell, index) => (

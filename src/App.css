@@ -7,6 +7,46 @@
   height: 100vh;
 }
 
+.NewGame {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+
+.NewGame__select {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.NewGame__select label {
+  font-size: 20px;
+  font-weight: 700;
+  margin-right: 16px;
+  white-space: nowrap;
+}
+
+.NewGame__select select {
+  font-size: 20px;
+  font-weight: 600;
+  padding: 0.5rem;
+  width: 120px;
+}
+
+.NewGame__button {
+  font-size: 24px;
+  font-weight: 400;
+  padding: 1rem 2rem;
+  border: 0;
+  border-radius: 4px;
+  outline: 0;
+  background-color: rgb(55, 218, 14);
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+}
+
 .ScoreTable {
   display: flex;
   justify-content: center;
