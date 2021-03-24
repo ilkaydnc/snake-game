@@ -89,22 +89,25 @@ function App() {
   };
 
   const onKeyDown = (e: KeyboardEvent) => {
+    const horizontal = ["L", "R"];
+    const vertical = ["U", "D"];
+
     if (e.code === "Space" && gameOver) {
       setGameOver(false);
       setGameStarted(false);
       return;
     }
 
-    if (e.code === "ArrowUp" && direction !== "D") {
+    if (e.code === "ArrowUp" && !vertical.includes(direction)) {
       clearInterval(interval);
       setDirection("U");
-    } else if (e.code === "ArrowDown" && direction !== "U") {
+    } else if (e.code === "ArrowDown" && !vertical.includes(direction)) {
       clearInterval(interval);
       setDirection("D");
-    } else if (e.code === "ArrowLeft" && direction !== "R") {
+    } else if (e.code === "ArrowLeft" && !horizontal.includes(direction)) {
       clearInterval(interval);
       setDirection("L");
-    } else if (e.code === "ArrowRight" && direction !== "L") {
+    } else if (e.code === "ArrowRight" && !horizontal.includes(direction)) {
       clearInterval(interval);
       setDirection("R");
     }
