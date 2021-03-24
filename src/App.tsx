@@ -60,6 +60,9 @@ function App() {
   const [snake, setSnake] = useState<SnakePosition>([]);
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [direction, setDirection] = useState<Direction>("R");
+  const [errorCellIndex, setErrorCellIndex] = useState<number | undefined>(
+    undefined
+  );
 
   const createNewGame = () => {
     const initialMap = createNewMap(MAP_WIDTH, MAP_HEIGHT);
@@ -75,6 +78,7 @@ function App() {
 
     initialMap[newAppleIndex] = "X";
 
+    setErrorCellIndex(undefined);
     setScore(0);
     setMap(initialMap);
     setSnake(newSnake);
@@ -114,8 +118,14 @@ function App() {
       // Snake Collision
       snake.includes(nextPosition)
     ) {
+      setErrorCellIndex(
+        snake.includes(nextPosition) ? nextPosition : snakeHead
+      );
       clearInterval(interval);
-      setGameOver(true);
+
+      setTimeout(() => {
+        setGameOver(true);
+      }, 2000);
 
       return null;
     }
@@ -217,7 +227,8 @@ function App() {
                 "Map__cell",
                 cell === "S" && "Map__snake",
                 snake[snake.length - 1] === index && "Map__snake_head",
-                cell === "X" && "Map__apple"
+                cell === "X" && "Map__apple",
+                errorCellIndex === index && "Map__error_cell"
               )}
               onClick={() => console.log(index)}
             />
