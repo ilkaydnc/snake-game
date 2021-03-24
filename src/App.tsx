@@ -90,7 +90,8 @@ function App() {
 
   const onKeyDown = (e: KeyboardEvent) => {
     if (e.code === "Space" && gameOver) {
-      createNewGame();
+      setGameOver(false);
+      setGameStarted(false);
       return;
     }
 
@@ -180,7 +181,7 @@ function App() {
 
     return () => interval && clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [map, snake, direction]);
+  }, [map, snake, direction, errorCellIndex]);
 
   useEffect(() => {
     if (map && snake) {
@@ -190,7 +191,7 @@ function App() {
     }
 
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [map, snake, gameOver, errorCellIndex]);
+  }, [map, snake, gameOver]);
 
   return (
     <div className="App">
@@ -251,7 +252,7 @@ function App() {
               setGameStarted(false);
             }}
           >
-            Press <code>[Space]</code> to Start New Game!
+            Return Main Menu <code>[Space]</code>
           </button>
         </div>
       ) : (
