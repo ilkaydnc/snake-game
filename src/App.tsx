@@ -52,7 +52,6 @@ const MAP_WIDTH = 32;
 const MAP_HEIGHT = 32;
 const DEFAULT_SNAKE_SIZE = 3;
 let GAME_LOOP = 50;
-let direction: Direction = "R";
 let interval: any;
 
 function App() {
@@ -60,13 +59,14 @@ function App() {
   const [map, setMap] = useState<string[] | undefined>(undefined);
   const [snake, setSnake] = useState<SnakePosition>([]);
   const [gameOver, setGameOver] = useState<boolean>(false);
+  const [direction, setDirection] = useState<Direction>("R");
 
   const createNewGame = () => {
     const initialMap = createNewMap(MAP_WIDTH, MAP_HEIGHT);
     const newSnake = createSnake(DEFAULT_SNAKE_SIZE);
     const newAppleIndex = createRandomApple(MAP_WIDTH, MAP_HEIGHT, newSnake);
 
-    direction = "R";
+    setDirection("R");
     clearInterval(interval);
 
     newSnake.forEach((value) => {
@@ -82,24 +82,18 @@ function App() {
   };
 
   const onKeyDown = (e: KeyboardEvent) => {
-    if ((e.key === "ArrowUp" || e.key === "KeyW") && direction !== "D") {
-      direction = "U";
-    } else if (
-      (e.key === "ArrowDown" || e.key === "KeyS") &&
-      direction !== "U"
-    ) {
-      direction = "D";
-    } else if (
-      (e.key === "ArrowLeft" || e.key === "KeyA") &&
-      direction !== "R"
-    ) {
-      direction = "L";
-    } else if (
-      (e.key === "ArrowRight" || e.key === "KeyD") &&
-      direction !== "L"
-    ) {
-      direction = "R";
     }
+
+    if (e.code === "ArrowUp" && ["L", "R"].includes(direction)) {
+      setDirection("U");
+    } else if (e.code === "ArrowDown" && ["L", "R"].includes(direction)) {
+      setDirection("D");
+    } else if (e.code === "ArrowLeft" && ["U", "D"].includes(direction)) {
+      setDirection("L");
+    } else if (e.code === "ArrowRight" && ["U", "D"].includes(direction)) {
+      setDirection("R");
+    }
+
   };
 
   const moveSnake = () => {
@@ -169,15 +163,15 @@ function App() {
   }, []);
 
   useEffect(() => {
+    clearInterval(interval);
+
     if (!gameOver && map && snake) {
       interval = setInterval(moveSnake, GAME_LOOP);
-    } else {
-      clearInterval(interval);
     }
 
     return () => interval && clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [map, snake, gameOver]);
+  }, [map, snake, gameOver, direction]);
 
   useEffect(() => {
     if (map && snake && !gameOver) {
