@@ -83,13 +83,13 @@
   background-color: rgb(62, 113, 255);
   color: rgb(230, 230, 230);
   cursor: pointer;
+  margin: 0 8px;
 }
 
 .GameOver__button code {
   font-weight: 700;
   color: white;
 }
-
 .Map {
   display: grid;
   grid-gap: 1px;

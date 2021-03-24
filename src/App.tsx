@@ -93,8 +93,7 @@ function App() {
     const vertical = ["U", "D"];
 
     if (e.code === "Space" && gameOver) {
-      setGameOver(false);
-      setGameStarted(false);
+      createNewGame();
       return;
     }
 
@@ -249,15 +248,24 @@ function App() {
           <h1 className="GameOver__title">Game Over</h1>
 
           <span className="GameOver__score">Your Score: {score}</span>
-          <button
-            className="GameOver__button"
-            onClick={() => {
-              setGameOver(false);
-              setGameStarted(false);
-            }}
-          >
-            Return Main Menu <code>[Space]</code>
-          </button>
+          <div className="GameOver__footer">
+            <button
+              className="GameOver__button"
+              onClick={() => createNewGame()}
+            >
+              Try Again! <code>[Space]</code>
+            </button>
+            <button
+              className="GameOver__button"
+              style={{ backgroundColor: "rgb(241, 74, 74)" }}
+              onClick={() => {
+                setGameOver(false);
+                setGameStarted(false);
+              }}
+            >
+              Return Main Menu
+            </button>
+          </div>
         </div>
       ) : (
         gameStarted && (
