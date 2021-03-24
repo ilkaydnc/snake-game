@@ -94,12 +94,16 @@ function App() {
     }
 
     if (e.code === "ArrowUp" && direction !== "D") {
+      clearInterval(interval);
       setDirection("U");
     } else if (e.code === "ArrowDown" && direction !== "U") {
+      clearInterval(interval);
       setDirection("D");
     } else if (e.code === "ArrowLeft" && direction !== "R") {
+      clearInterval(interval);
       setDirection("L");
     } else if (e.code === "ArrowRight" && direction !== "L") {
+      clearInterval(interval);
       setDirection("R");
     }
   };
