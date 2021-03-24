@@ -173,13 +173,13 @@ function App() {
   };
 
   useEffect(() => {
-    if (!gameOver && map && snake) {
+    if (map && snake) {
       interval = setInterval(moveSnake, GAME_LOOP);
     }
 
     return () => interval && clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [map, snake, gameOver, direction]);
+  }, [map, snake, direction]);
 
   useEffect(() => {
     if (map && snake) {
@@ -207,7 +207,13 @@ function App() {
           <h1 className="GameOver__title">Game Over</h1>
 
           <span className="GameOver__score">Your Score: {score}</span>
-          <button className="GameOver__button" onClick={createNewGame}>
+          <button
+            className="GameOver__button"
+            onClick={() => {
+              setGameOver(false);
+              setGameStarted(false);
+            }}
+          >
             Press <code>[Space]</code> to Start New Game!
           </button>
         </div>
