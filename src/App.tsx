@@ -59,6 +59,7 @@ function App() {
   const [map, setMap] = useState<string[] | undefined>(undefined);
   const [snake, setSnake] = useState<SnakePosition>([]);
   const [gameOver, setGameOver] = useState<boolean>(false);
+  const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [direction, setDirection] = useState<Direction>("R");
   const [errorCellIndex, setErrorCellIndex] = useState<number | undefined>(
     undefined
@@ -82,6 +83,7 @@ function App() {
     setScore(0);
     setMap(initialMap);
     setSnake(newSnake);
+    setGameStarted(true);
     setGameOver(false);
   };
 
@@ -171,10 +173,6 @@ function App() {
   };
 
   useEffect(() => {
-    createNewGame();
-  }, []);
-
-  useEffect(() => {
     if (!gameOver && map && snake) {
       interval = setInterval(moveSnake, GAME_LOOP);
     }
@@ -195,7 +193,8 @@ function App() {
 
   return (
     <div className="App">
-      {!gameOver && (
+      {!gameStarted && <button onClick={createNewGame}>Start Game</button>}
+      {!gameOver && gameStarted && (
         <div className="ScoreTable">
           <h2>Score: {score}</h2>
         </div>
@@ -213,27 +212,29 @@ function App() {
           </button>
         </div>
       ) : (
-        <div
-          className="Map"
-          style={{
-            gridTemplateColumns: `repeat(${MAP_WIDTH}, 24px)`,
-            gridAutoRows: `repeat(${MAP_HEIGHT}, 24px)`,
-          }}
-        >
-          {map?.map((cell, index) => (
-            <div
-              key={index}
-              className={cs(
-                "Map__cell",
-                cell === "S" && "Map__snake",
-                snake[snake.length - 1] === index && "Map__snake_head",
-                cell === "X" && "Map__apple",
-                errorCellIndex === index && "Map__error_cell"
-              )}
-              onClick={() => console.log(index)}
-            />
-          ))}
-        </div>
+        gameStarted && (
+          <div
+            className="Map"
+            style={{
+              gridTemplateColumns: `repeat(${MAP_WIDTH}, 24px)`,
+              gridAutoRows: `repeat(${MAP_HEIGHT}, 24px)`,
+            }}
+          >
+            {map?.map((cell, index) => (
+              <div
+                key={index}
+                className={cs(
+                  "Map__cell",
+                  cell === "S" && "Map__snake",
+                  snake[snake.length - 1] === index && "Map__snake_head",
+                  cell === "X" && "Map__apple",
+                  errorCellIndex === index && "Map__error_cell"
+                )}
+                onClick={() => console.log(index)}
+              />
+            ))}
+          </div>
+        )
       )}
     </div>
   );
