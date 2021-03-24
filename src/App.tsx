@@ -191,6 +191,7 @@ function App() {
     }
 
     return () => window.removeEventListener("keydown", onKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map, snake, gameOver]);
 
   return (
